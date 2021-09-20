@@ -1,31 +1,41 @@
 package com.mygdx.mario;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.mario.Screens.PlayScreen;
 
-public class Mario extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+/**
+ * Main game loop, will delegate action to a screen
+ */
+public class Mario extends Game {
+	/**
+	 * SpriteBatch -
+	 * Memory intensive so we only want one to be shared across all screens
+	 */
+	public SpriteBatch batch;
+
+	/**
+	 * Virtual width and height for our game
+	 */
+	public static final int V_WIDTH = 400;
+	public static final int V_HEIGHT = 208;
+
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		/**
+		 * Delegate a screen for the game to display
+		 */
+		setScreen(new PlayScreen(this));
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		super.render();
 	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+
 }
