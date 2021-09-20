@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.mario.Mario;
+import com.mygdx.mario.Scenes.Hud;
 
 /**
  * Screen that the game will be displayed on and executes the logic of the game
@@ -20,7 +21,6 @@ public class PlayScreen implements Screen {
      */
     private Mario game;
 
-    Texture texture;
 
     /**
      * What the viewport will display
@@ -33,15 +33,21 @@ public class PlayScreen implements Screen {
     private Viewport gameViewPort;
 
     /**
+     * The Hud Scene
+     */
+    private Hud hud;
+
+    /**
      * Constructor
      * @param game
      */
     public PlayScreen(Mario game) {
         this.game = game;
-        texture = new Texture("badlogic.jpg");
         gameCam = new OrthographicCamera();
 
         gameViewPort = new FitViewport(Mario.V_WIDTH, Mario.V_HEIGHT, gameCam);
+
+        hud = new Hud(game.batch);
 
     }
 
@@ -62,15 +68,13 @@ public class PlayScreen implements Screen {
         /**
          * Clear the Screen
          */
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         /**
          * Draw the texture to the spriteBatch, then render it with .end()
          */
-        game.batch.setProjectionMatrix(gameCam.combined);
-        game.batch.begin();
-        game.batch.draw(texture, 0, 0);
-        game.batch.end();
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
     }
 
     /**
